@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smarter With AI - المحاضرة السادسة (الإخراج الصوتي والمزامنة)</title>
+    
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#2A1B54',
+                            teal: '#20857D',
+                            green: '#7BBA4E',
+                            light: '#F4F9F8',
+                            darkbg: '#050a09',
+                            darkcard: '#0c1715'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #20857D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7BBA4E; }
+        
+        .gradient-text {
+            background: linear-gradient(to left, #2A1B54, #20857D, #7BBA4E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(to left, #7BBA4E, #20857D, #60A5FA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-brand-light text-gray-800 dark:bg-brand-darkbg dark:text-gray-100 transition-colors duration-300 antialiased selection:bg-brand-green selection:text-white pb-12">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-brand-darkbg/90 border-b-2 border-gray-200 dark:border-brand-teal/50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo Area -->
+                <div class="flex items-center gap-2">
+                    <img src="https://i.postimg.cc/j512mZ0r/lwjw-image-hosting.jpg" alt="Smarter With AI Logo" class="w-12 h-12 rounded-xl object-contain shadow-sm bg-white border-2 border-brand-teal/30 dark:border-brand-teal">
+                    <span class="font-bold text-xl tracking-tight text-brand-dark dark:text-white">Smarter With <span class="text-brand-green">AI</span></span>
+                </div>
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="p-2 rounded-full hover:bg-brand-teal/10 dark:hover:bg-brand-teal/20 transition">
+                    <i id="themeIcon" class="fa-solid fa-moon text-xl text-brand-teal dark:text-brand-green"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero -->
+    <header class="max-w-4xl mx-auto mt-10 px-4 text-center">
+        <div class="inline-block px-4 py-1 rounded-full bg-brand-teal/10 text-brand-teal dark:bg-brand-teal/20 dark:text-brand-teal text-sm font-semibold mb-4">
+            المحاضرة السادسة - الدفعة الرابعة
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-4 gradient-text">دليل الإخراج الصوتي والمزامنة</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-6 font-bold">
+            أسرار صناعة الصوت، الاستنساخ، وصناعة الأفاتار بالذكاء الاصطناعي 🎙️✨
+        </p>
+        
+        <!-- نبذة -->
+        <div class="bg-white/60 dark:bg-black/30 backdrop-blur-sm p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed text-right">
+            "أهلاً وسهلاً بيك يا صديقي الجميل في الأسبوع السادس من دبلومة Smarter With AI. المحاضرة دي حرفياً بتنقلك من مرحلة 'صناعة الصور والنصوص' لمرحلة 'نفخ الروح' في المحتوى بتاعك! النهارده هنتكلم عن إنشاء الصوت بمساعدة الذكاء الاصطناعي. عمرك تخيلت إنك تقدر تحول سكريبت مكتوب لفويس أوفر احترافي، أو تعمل بودكاست كامل بين شخصين بضغطة زر، أو حتى تستنسخ صوتك إنت شخصياً عشان ما تضطرش تسجل كل مرة؟ كل ده وأكتر هنعمله مع بعض وبأدوات أغلبها مجاني أو بيديك باقة محترمة للتجربة. جهز كوباية الشاي، وركز معايا عشان نضاعف إنتاجيتك! 🎬🔥"
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 space-y-12">
+
+        <!-- 1. منطقة التعلم (Learning Zone) -->
+        <section id="learning-zone" class="scroll-mt-24 bg-white dark:bg-brand-darkcard border-2 border-gray-200 dark:border-brand-teal/60 rounded-3xl p-6 md:p-8 shadow-md">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-brand-teal/10 dark:bg-brand-teal/20 text-brand-teal dark:text-brand-green rounded-lg border border-brand-teal/30">
+                    <i class="fa-solid fa-microphone-lines text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold border-b-2 border-brand-green pb-2 inline-block dark:text-white">دليل المحاضرة السادسة</h2>
+            </div>
+
+            <!-- المحتوى المقروء الضخم -->
+            <div class="prose prose-lg dark:prose-invert max-w-none mt-4 text-gray-800 dark:text-gray-200">
+                
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-8 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-1 text-brand-green text-sm"></i> الباب الأول: البداية مع الصوتيات (Text-to-Speech) 🎙️
+                </h3>
+                <p>أول محطة لينا عشان نحول أي نص لصوت هي كنز من كنوز جوجل، موقع <strong>Google AI Studio</strong>. الموقع ده جوجل بتوفر عليه كل النماذج بتاعتها (زي Nano Banana و Gemini)، وبيديك ليميت مجاني محترم جداً، ومؤخراً زودوا الليميت ده للناس اللي مشتركة في نسخة (Pro).</p>
+                <p>أول ما تفتح البلاي جراوند (Playground) في الموقع، هتلاقي تاب اسمها (Speech and Music).. دوس عليها وادخل معايا عالم الصوت.</p>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🎭 نموذج Gemini 3.1 Flash TTS وسر "المشاعر"</h4>
+                <p>أحدث نموذج صوتي هناك اسمه <code>Gemini 3.1 Flash TTS</code>. أول ما تختاره، هتلاقيه بيوفرلك قوالب (Templates) جاهزة تفهمك الليلة ماشية إزاي (زي مود للقصص، مود المدرس الصبور، مود للإعلانات).</p>
+                
+                <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border-2 border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal my-4 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
+                    <p class="font-bold text-brand-dark dark:text-white mb-2"><i class="fa-solid fa-tags text-brand-teal"></i> التريكة الصايعة (Tags):</p>
+                    <p class="text-sm m-0 leading-relaxed text-gray-700 dark:text-gray-200">لو كبرت النص المكتوب في القوالب دي، هتلاقي كلمات بين أقواس زي <code>(Instruction)</code> أو <code>(Mystery)</code>. الحاجات دي اسمها Tags.. دي مش كلمات الموديل بيقراها، دي "توجيهات إخراجية" بتضيف مشاعر (Emotion) للكلام! يعني بتخليه يتكلم بغموض، أو بحماس، أو بهدوء.</p>
+                </div>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🏛️ المساعد الشخصي (Voice Mood) وتجربة المتحف</h4>
+                <p>عشان ننجز وما نضيعش وقت في كتابة البرومبت، دكتور محمود وفرلنا مساعد اسمه <strong>Voice Mood</strong>. بتدخل تقوله إنت عايز إيه بالظبط. دكتور محمود قاله: <em>"عاوز أعمل فويس أوفر عن المتحف المصري الكبير، لشخص مصري عمره 50 سنة بيتكلم بفخر، ومدته دقيقة بالظبط"</em>.</p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-sm text-gray-700 dark:text-gray-200">
+                    <li>المساعد بيطلعلك <strong>المشهد (Scene)</strong> و <strong>السياق (Context) والنص</strong>. بنضيفهم في جوجل استوديو عشان الموديل يفهم الجو العام.</li>
+                    <li>في إعدادات المتحدث (Speaker Settings)، بنختار صوت الشخصية والستايل وندوس Generate.</li>
+                    <li><strong>قاعدة مهمة:</strong> كل ما اديته كلام أكتر، بياخد وقت أطول في التوليد.</li>
+                    <li>ولو حسيت إن الصوت طالع كأنه بيهمس (Whisper) بزيادة، تقدر تغير الستايل لـ <strong>(Vocal smile)</strong> عشان الصوت يطلع مبتسم ومشرق.</li>
+                </ul>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🎧 صناعة البودكاست والمحادثات المزدوجة</h4>
+                <p>طيب لو أنا مش عايز فويس أوفر لشخص واحد؟ هتلاقي فوق في جوجل استوديو اختيارين: <strong>(Text)</strong> و <strong>(Composer)</strong>.</p>
+                <div class="grid md:grid-cols-2 gap-4 mt-4 text-sm">
+                    <div class="bg-white dark:bg-[#0a1412] p-5 rounded-2xl border-2 border-gray-100 dark:border-gray-800 shadow-sm flex flex-col">
+                        <strong class="text-brand-teal dark:text-brand-green block mb-2"><i class="fa-solid fa-align-left"></i> الـ Text</strong>
+                        <p class="text-gray-700 dark:text-gray-200 leading-relaxed mb-0">لو معاك المحادثة كاملة على بعضها (Speaker 1 وبعدين Speaker 2)، بتلزقها هنا كبرجراف كامل وهو بيقسمها أوتوماتيك.</p>
+                    </div>
+                    <div class="bg-white dark:bg-[#0a1412] p-5 rounded-2xl border-2 border-gray-100 dark:border-gray-800 shadow-sm flex flex-col">
+                        <strong class="text-brand-teal dark:text-brand-green block mb-2"><i class="fa-solid fa-list-ul"></i> الـ Composer</strong>
+                        <p class="text-gray-700 dark:text-gray-200 leading-relaxed mb-0">هنا بقى المحادثة متقسمة جملة جملة، والأجمل إنه ضاف التاجز بتاعت المشاعر من نفسه (يتكلم بفخر، مندهش)! دكتور محمود جرب محادثة بين طفل ووالده وطلعت مبهرة.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-10 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-2 text-brand-green text-sm"></i> الباب الثاني: مكتبات الأصوات الجاهزة وتريكات النطق 📚
+                </h3>
+                <p>جوجل استوديو عظيم، بس لو إنت بتدور على تنوع أكبر، أو عايز تعمل فيديوهات توعية أو إعلانات بصوت "ثابت" كل مرة (يعني لو اخترت شخصية تطلع نفس النبرة من غير تغيير)، يبقى محطتك الجاية هي الوحش <strong>ElevenLabs</strong>.</p>
+                <p>أول ما بتدخل وتختار (Voices)، بتلاقي بحر من الأصوات. اختار اللغة العربية، وهتلاقي كل اللهجات اللي تتخيلها وتقدر تعمل فلتر (مثلاً بنت في منتصف العمر Middle age).</p>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🎛️ مصطلح الـ Temperature (مفتاح الإبداع)</h4>
+                <p>وإنت بتعمل (Text to Speech) في ElevenLabs، هتلاقي في الإعدادات مصطلح مشهور اسمه <code>Temperature</code>. ركز في الجدول ده عشان ماتتلخبطش:</p>
+
+                <!-- جدول Temperature -->
+                <div class="overflow-x-auto my-6">
+                    <table class="w-full text-sm text-right bg-white dark:bg-[#0a1412] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-brand-teal/30 min-w-[600px]">
+                        <thead class="bg-brand-teal/10 dark:bg-brand-teal/20 text-brand-dark dark:text-brand-green">
+                            <tr>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">مستوى الـ Temperature</th>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">النتيجة المتوقعة</th>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">إمتى أستخدمه؟</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700 dark:text-gray-200">
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="p-3 font-bold text-red-500">عالي (High)</td>
+                                <td class="p-3">النموذج بيكون مبدع جداً (Creative)، بيلون في الصوت براحته.</td>
+                                <td class="p-3">لو بتعمل قصة درامية وعايز تفاعلات مفاجئة (بس النتيجة غير متوقعة).</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="p-3 font-bold text-blue-500">منخفض (Low)</td>
+                                <td class="p-3">النموذج بيكون ملتزم وحرفي جداً باللي مكتوب.</td>
+                                <td class="p-3">نشرة أخبار أو إعلان رسمي، النتيجة بتكون متوقعة ومستقرة.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-brand-green">متوازن (Default)</td>
+                                <td class="p-3">بيوازن بين الالتزام والمشاعر.</td>
+                                <td class="p-3">ده الـ Default ويفضل تسيبه عليه في أغلب شغلك العادي.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-[#070e0c] p-5 rounded-2xl border-2 border-red-200 dark:border-red-900 border-l-4 border-l-red-500 mt-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
+                    <h4 class="font-bold text-red-600 dark:text-red-500 mb-2"><i class="fa-solid fa-user-doctor"></i> علاج عيوب النطق (تريكة التشكيل والكتابة الصوتية)</h4>
+                    <p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed mb-2">الـ AI ممكن ينطق "نَفْس" كأنها "نَفَس"، أو "أذكى" يقولها "أسكي"! السر: اتعامل مع الـ AI كأنه طفل بيتعلم القراءة!</p>
+                    <ul class="text-sm list-disc list-inside space-y-1 text-gray-800 dark:text-gray-200">
+                        <li><strong>التشكيل هو الحل:</strong> حط الحركات (فتحة، ضمة، كسرة، سكون) على الكلمة اللي ممكن تتفهم غلط.</li>
+                        <li><strong>الكتابة الصوتية (السر الأكبر):</strong> إحنا مش بنمتحن إملاء! اكتب الكلمة زي ما بتتنطق بالعامية. لو حرف القاف بيتنطق في سكريبتك "همزة"، اكتبه "همزة"! الموديل بيقرا الحروف المكتوبة.</li>
+                    </ul>
+                </div>
+
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-10 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-3 text-brand-green text-sm"></i> الباب الثالث: أصوات المشاهير ومغير الصوت 🎭
+                </h3>
+                <p>عمرك تخيلت إنك تعمل فيديو وتخلي الفويس أوفر بصوت عصام الشوالي، أو أبو تريكة، أو إيلون ماسك؟ موقع <strong>Fish Audio</strong> هو الكنز اللي مليان أصوات مشاهير جاهزة. بتختار الشخصية، تدخل النص وتدوس Generate.</p>
+                <p class="text-sm text-gray-500 mb-4">⚠️ <em>تحذير: الموقع بيديك 8,000 كريديت، بس مشكلته إنه آخره 500 حرف في المرة الواحدة.</em></p>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🪄 السحر الحقيقي: مغير الصوت (Voice Changer)</h4>
+                <p>لو مسجلة بصوتك بس مكسوفة تطلعي بيه أو عايزة تحوليه لصوت راجل؟ الميزة الساحرة دي موجودة في <strong>ElevenLabs</strong>.</p>
+                <p>دكتور محمود سجل لايف عبارة ترحيبية بصوته، واختار صوت "بنت" من الموقع. الموقع مغيرش الصوت بس، ده أخد <em>"نفس الإلقاء والنبرة والانفعال"</em> وركبه على صوت البنت! (تريكة: الموقع بينصحك تستخدم موديل معين زي Version 2 للحصول على أفضل نتيجة).</p>
+
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-10 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-4 text-brand-green text-sm"></i> الباب الرابع: تصميم الصوت من الصفر (Voice Design) 🧠
+                </h3>
+                <p>لو مش عايز أصوات جاهزة، تقدر توصف شخصية من خيالك في الـ <strong>Voice Design</strong> داخل ElevenLabs. دكتور محمود طلب: <em>"تصميم لصوت بنت 26 سنة، ممثلة لدبلومة Smarter With AI، نبرة هادية"</em>، والموقع طلعله 3 نسخ مختلفة للصوت.</p>
+
+                <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border-2 border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal my-4 shadow-sm">
+                    <p class="font-bold text-brand-dark dark:text-white mb-2"><i class="fa-solid fa-triangle-exclamation text-brand-teal"></i> فخ التاجز (Tags) وموديل V3:</p>
+                    <p class="text-sm m-0 leading-relaxed text-gray-700 dark:text-gray-200">لما حطينا سكريبت فيه <code>(Vocal Smile)</code>، الموديل القديم قرأها ككلمة إنجليزية وسط السكريبت! التاجز والتوجيهات الإخراجية دي مش بتتفهم غير من أحدث نموذج عندهم وهو <strong>(Version 3)</strong>. مجرد ما غيرناه لـ V3، قرأت السكريبت وهي مبتسمة فعلاً!</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-10 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-5 text-brand-green text-sm"></i> الباب الخامس: استنساخ صوتك الشخصي (Voice Cloning) 🗣️
+                </h3>
+                <p>موقع ElevenLabs بيقدم ميزة الاستنساخ، بس لأسف قفلها ورا خطط مدفوعة (زي خطة Professional اللي بتحتاج ترفع 30 دقيقة بصوت نقي جداً). بس هل هنقف؟ أكيد لأ!</p>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🎁 الحل المجاني السحري: البديل الصيني (Minimax)</h4>
+                <p>موقع Minimax بيسمحلك تعمل (Voice Clone) وتصميم للصوت بشكل مجاني تماماً! ولما تيجي تستنسخ قدامك خيارين:</p>
+                <ul class="list-disc list-inside space-y-1 mb-4 text-sm text-gray-700 dark:text-gray-200">
+                    <li>ترفع مقطع صوتي (ممكن ترفع لحد 10 عينات).</li>
+                    <li>تسجل لايف مباشرة على الموقع (من 10 لـ 60 ثانية).</li>
+                </ul>
+                <p class="text-sm"><em>قاعدة ذهبية: جودة المايك هي اللي بتحدد جودة الصوت المستنسخ. ولو مش شبهك، ارفع عينات تانية كـ Reference أقوى.</em></p>
+
+                <!-- جدول مقارنة أدوات الصوت -->
+                <div class="overflow-x-auto my-6">
+                    <h4 class="font-bold text-brand-teal mb-3">📊 جدول ملخص سريع لأدوات استنساخ وتصميم الصوت:</h4>
+                    <table class="w-full text-sm text-right bg-white dark:bg-[#0a1412] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-brand-teal/30 min-w-[600px]">
+                        <thead class="bg-brand-teal/10 dark:bg-brand-teal/20 text-brand-dark dark:text-brand-green">
+                            <tr>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">اسم الموقع</th>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">الميزة التنافسية</th>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">الليميت / التكلفة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700 dark:text-gray-200">
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="p-3 font-bold text-brand-teal">ElevenLabs</td>
+                                <td class="p-3">الأقوى في الدقة والمشاعر (V3) وتغيير الصوت.</td>
+                                <td class="p-3">10,000 كريديت (الاستنساخ مدفوع).</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="p-3 font-bold text-brand-teal">Minimax</td>
+                                <td class="p-3">استنساخ الصوت (Cloning) مجاناً.</td>
+                                <td class="p-3">10,000 كريديت / 3 أصوات فقط (تريكة: سجل خروج وادخل بإيميل جديد!).</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-brand-teal">Fish Audio</td>
+                                <td class="p-3">أصوات المشاهير جاهزة.</td>
+                                <td class="p-3">8,000 كريديت (500 حرف في المرة).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-10 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-6 text-brand-green text-sm"></i> الباب السادس: المزامنة الصوتية (Lip-Sync) وصناعة الأفاتار 🦸‍♂️
+                </h3>
+                <p>السر في المنصات دي على رأسهم الوحش <strong>HeyGen</strong> (ومعاه كمان موقع <strong>Pippit</strong>). بتدخل قسم الـ Avatar وتقدر تختار من الـ Public Avatars أو تـ Create Avatar وتعمل شخصيتك إنت!</p>
+
+                <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border-2 border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal my-4 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
+                    <p class="font-bold text-brand-dark dark:text-white mb-2"><i class="fa-solid fa-video text-brand-teal"></i> تريكة المليون جنيه: ترفع صورة ولا فيديو؟</p>
+                    <p class="text-sm m-0 leading-relaxed text-gray-700 dark:text-gray-200">الصح والمثالي إنك ترفع <strong>فيديو ليك وأنت بتتحرك وبتتكلم!</strong> الموديل بياخد الفيديو كـ Reference وبيحفظ لغة جسدك وتعبيرات وشك، فلما يجي يولد الفيديو الجديد بيطلعك إنت بالظبط وفيها روح، إنما الصورة بتطلع أفاتار جامد.</p>
+                </div>
+
+                <!-- جدول أجيال الأفاتار -->
+                <div class="overflow-x-auto my-6">
+                    <h4 class="font-bold text-brand-teal mb-3">📊 أجيال الأفاتار في HeyGen:</h4>
+                    <table class="w-full text-sm text-right bg-white dark:bg-[#0a1412] rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-brand-teal/30 min-w-[600px]">
+                        <thead class="bg-brand-teal/10 dark:bg-brand-teal/20 text-brand-dark dark:text-brand-green">
+                            <tr>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">اسم النموذج</th>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">مميزاته</th>
+                                <th class="p-3 border-b border-gray-200 dark:border-brand-teal/30">القيود / الليميت</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700 dark:text-gray-200">
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="p-3 font-bold text-brand-teal">Avatar 3</td>
+                                <td class="p-3">ممتاز في مزامنة الوش وحركة الشفايف الأساسية.</td>
+                                <td class="p-3">متاح في النسخة المجانية (3 فيديوهات).</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <td class="p-3 font-bold text-brand-teal">Avatar 4</td>
+                                <td class="p-3">دقة مرعبة في الـ Lip-sync وحركة الإيد ولغة الجسد.</td>
+                                <td class="p-3">الليميت بتاعه أقل وبيستهلك كريديت أكتر.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-brand-teal">Avatar 5</td>
+                                <td class="p-3">أحدث وأقوى جيل حالياً للمحاكاة الواقعية.</td>
+                                <td class="p-3">متوفر للخطط المتقدمة.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🪞 الميزة الساحرة: مرآة الصوت (Voice Mirror)</h4>
+                <p>لو معاك فويس أوفر بصوت "بنت"، بس الأفاتار اللي اخترته "راجل"! تفعل أوبشن <strong>(Voice Mirror)</strong>.. الموقع بياخد الإلقاء والمشاعر بتاعة البنت، ويحولها لـ "صوت راجل" لايق على الأفاتار اللي إنت اخترته!</p>
+
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mt-10 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-7 text-brand-green text-sm"></i> الباب السابع: الدبلجة، عروض جوجل، وهندسة الصوت 🎛️
+                </h3>
+                
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🌍 الدبلجة والترجمة العبقرية (Translate)</h4>
+                <p>في موقع HeyGen، الـ Translate بيتقسم لنوعين:</p>
+                <ul class="list-disc list-inside space-y-1 mb-4 text-sm text-gray-700 dark:text-gray-200">
+                    <li><strong>Audio Dubbing:</strong> بيدبلج الصوت للغة الجديدة، من غير تعديل الشفايف.</li>
+                    <li><strong>Video Dubbing (السحر كله):</strong> بيدبلج الصوت وبيعمل مزامنة لحركة الشفايف (Lip-sync) كأن الشخصية بتنطق عربي فعلاً!</li>
+                </ul>
+                <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border border-gray-200 dark:border-gray-700 text-sm mb-4">
+                    💡 <strong>تريكة Dynamic Duration:</strong> الجملة الإنجليزي ممكن تاخد 5 ثواني والعربي 8! لو مفعلتش الأوبشن ده من Advanced، الكلام هيتقطع. الأوبشن بيخلي الـ AI يمط وقت الفيديو عشان الكلام ياخد وقته.
+                </div>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🪄 الزرار السحري في Google Slides</h4>
+                <p>لو بتعمل بريزنتيشن على جوجل سلايدز، في أوبشن مخفي في قايمة (File) اسمه <strong>(Convert to video)</strong>! بيقرأ السلايدز، يكتب سكريبت، يعمل فويس أوفر، ويحط أفاتار يشرح! لو الأفاتار شرح إنجليزي، خده على HeyGen واعمله Audio Dubbing للعربي! (طوع الأدوات لخدمتك).</p>
+
+                <h4 class="font-bold text-brand-teal dark:text-brand-green mt-6">🎧 هندسة الصوت المتقدمة (عزل الضوضاء)</h4>
+                <p>لو مسجل ريكورد وفي دوشة أو موسيقى في الخلفية، استخدم:</p>
+                <ul class="list-disc list-inside space-y-1 mb-4 text-sm text-gray-700 dark:text-gray-200">
+                    <li>موقع <strong>Vocal Remover</strong> (بيفصل الصوت عن الموسيقى).</li>
+                    <li>أداة <strong>Voice Isolator</strong> جوه ElevenLabs.</li>
+                    <li>أداة Voice Isolator المجانية جوه الموقع الصيني <strong>Minimax</strong>.</li>
+                </ul>
+
+            </div>
+        </section>
+
+        <!-- 2. تحدي الأسبوع (Weekly Challenge) - Updated Section -->
+        <section id="challenge-zone" class="scroll-mt-24 bg-white dark:bg-brand-darkcard border-2 border-brand-green/50 dark:border-brand-green/60 rounded-3xl p-6 md:p-8 shadow-md">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-brand-green/10 dark:bg-brand-green/20 text-brand-green rounded-lg border border-brand-green/30">
+                    <i class="fa-solid fa-map-location-dot text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold border-b-2 border-brand-teal pb-2 inline-block dark:text-white">🎯 ختام الدليل: خريطة العمل وتاسكات الأسبوع السادس</h2>
+            </div>
+            
+            <p class="mb-8 text-gray-700 dark:text-gray-200 font-semibold text-lg leading-relaxed">
+                عشان تطبق اللي اتعلمناه في السحر الصوتي والمزامنة وتطلع بنتيجة تبهرك، بلاش تدخل تشتغل بعشوائية. دي خريطة طريق مرتبة خطوة بخطوة، مليانة أفكار عشان تطلق خيالك وتجرب كتير:
+            </p>
+
+            <!-- أولاً: البوصلة -->
+            <div class="mb-10">
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-compass text-brand-teal"></i> 🧭 أولاً: اسأل نفسك (حدد بوصلتك)
+                </h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">قبل ما تفتح أي أداة، جاوب على الكام سؤال دول عشان تحدد اتجاهك:</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal">
+                        <strong class="text-brand-dark dark:text-brand-green block mb-2"><i class="fa-solid fa-masks-theater ml-1"></i> نبرة الصوت والمشاعر إيه؟</strong>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">(عايزه درامي غامض، ولا إعلان حماسي، ولا شرح هادي؟)</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-200"><i class="fa-solid fa-arrow-left text-brand-teal"></i> الإجابة دي هتحدد هتستخدم (Tags) في Google AI Studio ولا هتروح لـ ElevenLabs.</p>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal">
+                        <strong class="text-brand-dark dark:text-brand-green block mb-2"><i class="fa-solid fa-users ml-1"></i> مين بطل القصة؟</strong>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">(مذيع واحد بيشرح، ولا محادثة وبودكاست بين اتنين؟)</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-200"><i class="fa-solid fa-arrow-left text-brand-teal"></i> لو بودكاست أو حوار، يبقى أداة الـ (Google AI Studio) من جوجل هي الحل السحري.</p>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal">
+                        <strong class="text-brand-dark dark:text-brand-green block mb-2"><i class="fa-solid fa-user-astronaut ml-1"></i> هتظهر بوشك ولا أفاتار؟</strong>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">(هتصمم أفاتار جاهز على الموقع، أو صورة جاهزة معاك، ولا هترفع فيديو مرجعي ليك؟)</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-200"><i class="fa-solid fa-arrow-left text-brand-teal"></i> افتكر تريكة رفع "فيديو" ليك بتتحرك فيه بدل الصورة الثابتة عشان لغة الجسد تطلع طبيعية جداً على HeyGen.</p>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-[#070e0c] p-4 rounded-xl border border-gray-200 dark:border-brand-teal/30 border-r-4 border-r-brand-teal">
+                        <strong class="text-brand-dark dark:text-brand-green block mb-2"><i class="fa-solid fa-language ml-1"></i> في لغات تانية محتاجة دبلجة؟</strong>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">(عندك فيديو أجنبي وعايزه ينطق عربي ويزامن حركة الشفايف؟)</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed"><i class="fa-solid fa-arrow-left text-brand-teal"></i> يبقى إنت محتاج ميزة الـ Video/Audio Dubbing مع تفعيل أوبشن الـ (Dynamic Duration). (وزي ما قولنا بتختار Video أو Audio حسب إنت عاوز تعمل دبلجة للصوت فقط، ولا دبلجة ومزامنة لحركة شفايف الشخصية مع الدبلجة الجديدة).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ثانياً: التنفيذ -->
+            <div class="mb-10">
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-brand-teal"></i> 📝 ثانياً: ابدأ التنفيذ بالترتيب (خطوات العمل)
+                </h3>
+                
+                <div class="grid md:grid-cols-2 gap-6 relative">
+                    <div class="bg-white dark:bg-brand-darkcard border-2 border-gray-100 dark:border-gray-800 shadow-sm rounded-2xl p-5 relative z-10">
+                        <div class="absolute -top-3 -right-3 w-8 h-8 bg-brand-teal text-white rounded-full flex items-center justify-center font-bold shadow-md">1</div>
+                        <h4 class="font-bold text-lg text-brand-teal dark:text-brand-green mb-3">الخطوة 1: الفكرة والسكريبت (Ideation)</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-bold mb-2">إنت قدامك طريقين للبدء:</p>
+                        <ul class="text-sm list-disc list-inside space-y-3 text-gray-700 dark:text-gray-200 leading-relaxed">
+                            <li><strong>المساعد الشخصي:</strong> استخدم مساعد (Voice Mood) عشان يصيغلك المشهد والسياق والنص بأسلوب إخراجي احترافي يخدم فكرتك ويوفر عليك كتابة الأوامر من الصفر.</li>
+                            <li><strong>الكتابة الصوتية (علاج النطق):</strong> اتعامل مع الـ AI كأنه طفل لسه بيتعلم. اكتب الكلمة زي ما بتتنطق بالعامية "صوتياً"، وحط التشكيل على الحروف اللي ممكن الموديل يغلط فيها عشان تضمن نطق صح 100%.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-brand-darkcard border-2 border-gray-100 dark:border-gray-800 shadow-sm rounded-2xl p-5 relative z-10">
+                        <div class="absolute -top-3 -right-3 w-8 h-8 bg-brand-teal text-white rounded-full flex items-center justify-center font-bold shadow-md">2</div>
+                        <h4 class="font-bold text-lg text-brand-teal dark:text-brand-green mb-3">الخطوة 2: توليد الصوت (Generation)</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mt-4">
+                            بناءً على اللي حددته في بوصلتك، خد السكريبت وروح للمنصة المناسبة:
+                            <br><br>
+                            <strong class="text-brand-dark dark:text-white">ElevenLabs</strong> (لو عايز مشاعر وتصميم شخصية)، أو <strong class="text-brand-dark dark:text-white">Minimax</strong> (للاستنساخ المجاني)، أو <strong class="text-brand-dark dark:text-white">Google AI Studio</strong> (للبودكاست السريع). طلع الفويس أوفر بتاعك وراجع النطق.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الخطوة 3: أفكار برة الصندوق -->
+            <div>
+                <h3 class="text-xl font-bold text-brand-dark dark:text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-brand-teal"></i> الخطوة 3: أفكار برة الصندوق (جرب واغلط وانطلق!)
+                </h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">ماتقفش عند الصوت العادي، جرب تدمج الذكاء الاصطناعي في شغلك بأفكار زي دي:</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- الفكرة 1 -->
+                    <div class="bg-gray-50 dark:bg-[#070e0c] border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal transition-colors rounded-xl p-4 flex flex-col">
+                        <h4 class="font-bold text-brand-dark dark:text-brand-green mb-2 flex items-center gap-2"><i class="fa-solid fa-podcast text-brand-teal"></i> البودكاستر الذكي</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed text-xs">اعمل بودكاست قصير (دقيقة) بين "طبيب أسنان ومريض قلقان"، ضيف مشاعر بالـ Tags في جوجل استوديو، واسمعه كأنه حقيقي بجد.</p>
+                    </div>
+
+                    <!-- الفكرة 2 -->
+                    <div class="bg-gray-50 dark:bg-[#070e0c] border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal transition-colors rounded-xl p-4 flex flex-col">
+                        <h4 class="font-bold text-brand-dark dark:text-brand-green mb-2 flex items-center gap-2"><i class="fa-solid fa-fingerprint text-brand-teal"></i> استنساخك الرقمي (أنت البطل)</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed text-xs">ادخل على Minimax، سجل 20 ثانية بصوتك وإنت بتتكلم بطبيعتك، واطلب منه يقرا سكريبت تسويقي لخدماتك بنبرتك إنت (مجاناً).</p>
+                    </div>
+
+                    <!-- الفكرة 3 -->
+                    <div class="bg-gray-50 dark:bg-[#070e0c] border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal transition-colors rounded-xl p-4 flex flex-col">
+                        <h4 class="font-bold text-brand-dark dark:text-brand-green mb-2 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-brand-teal"></i> مغير الصوت (Voice Changer)</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed text-xs">جرب تاخد الصوت اللي إنت طلعته (أو سجلته بنفسك)، وارفعوا على أداة تغيير الصوت في ElevenLabs، وحوله لصوت شخصية تانية خالص وشوف السحر إزاي هياخد نفس روحك وانفعالك!</p>
+                    </div>
+
+                    <!-- الفكرة 4 -->
+                    <div class="bg-gray-50 dark:bg-[#070e0c] border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal transition-colors rounded-xl p-4 flex flex-col">
+                        <h4 class="font-bold text-brand-dark dark:text-brand-green mb-2 flex items-center gap-2"><i class="fa-solid fa-star text-brand-teal"></i> أصوات المشاهير</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed text-xs">حابب تجرب موقع Fish Audio؟ ادخل اختار شخصية مشهورة بتحبها، واكتب سكريبت قصير ولذيذ، واعمل مقطع مميز بصوتهم وشاركنا النتيجة.</p>
+                    </div>
+
+                    <!-- الفكرة 5 -->
+                    <div class="bg-gray-50 dark:bg-[#070e0c] border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal transition-colors rounded-xl p-4 flex flex-col md:col-span-2 lg:col-span-2">
+                        <h4 class="font-bold text-brand-dark dark:text-brand-green mb-2 flex items-center gap-2"><i class="fa-solid fa-earth-americas text-brand-teal"></i> الدبلجة السحرية لعروضك</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed text-xs">معاك بريزنتيشن خاصة بيك أو عملتها بالذكاء الاصطناعي؟ من جوه Google Slides اختار (Convert to video). الفيديو هيطلع إنجليزي أو عربي (حسب لغة البريزنتيشن نفسها). بعدين خده وارفعه على HeyGen ودبلجه لأي لغة تانية إنت عاوزها مع تفعيل الـ (Dynamic Duration) عشان تظبط الوقت لو الكلام في اللغة الجديدة أطول.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سر الاحتراف -->
+            <div class="mt-8 bg-brand-teal/10 dark:bg-brand-teal/20 p-5 rounded-xl border border-brand-teal/30 flex gap-4 items-start">
+                <i class="fa-solid fa-bolt text-2xl text-brand-teal dark:text-brand-green mt-1"></i>
+                <div>
+                    <strong class="block text-brand-dark dark:text-white text-lg mb-1">💡 سر الاحتراف:</strong>
+                    <p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">الذكاء الاصطناعي بيوفر عليك سنين من التعلم وبيحطلك استوديو كامل بين إيديك، بس السر دايماً مش في الأداة.. السر فيك إنت! التجربة هي اللي هتعلمك وتفرقك عن غيرك. جرب، اغلط، العب في التشكيل، واسمع كتير لحد ما تطلع نتيجة تخطف العين والودن.. وخليكم دايماً <strong>Smarter With AI! 🚀</strong></p>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- 3. صندوق الأدوات والمساعدين (Tools Zone) -->
+        <section id="tools-zone" class="scroll-mt-24 bg-white dark:bg-brand-darkcard border-2 border-gray-200 dark:border-brand-teal/60 rounded-3xl p-6 md:p-8 shadow-md relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-3 bg-brand-teal/10 dark:bg-brand-teal/20 text-brand-teal dark:text-brand-green rounded-lg border border-brand-teal/30">
+                        <i class="fa-solid fa-toolbox text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold border-b-2 border-brand-teal pb-2 inline-block dark:text-white">ترسانة الأدوات والمراجع السريعة</h2>
+                </div>
+
+                <!-- الأدوات والمنصات الأساسية -->
+                <div class="bg-gray-50 dark:bg-[#070e0c] rounded-2xl p-6 border-2 border-gray-200 dark:border-brand-teal/40 shadow-sm mb-8">
+                    <h3 class="font-bold text-lg text-brand-dark dark:text-white mb-4 border-b border-brand-teal/30 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-laptop-code text-brand-teal"></i> صندوق أدواتك السحرية (Bookmarks)
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="https://aistudio.google.com/" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-brands fa-google text-2xl text-blue-500 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">Google AI Studio</span>
+                            <span class="text-[10px] text-gray-500 mt-1">توليد الصوت والبودكاست</span>
+                        </a>
+                        
+                        <a href="https://elevenlabs.io/" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-solid fa-wave-square text-2xl text-[#20857D] group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">ElevenLabs</span>
+                            <span class="text-[10px] text-gray-500 mt-1">ملك الصوتيات والمشاعر</span>
+                        </a>
+
+                        <a href="https://fish.audio/" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-solid fa-fish text-2xl text-orange-500 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">Fish Audio</span>
+                            <span class="text-[10px] text-gray-500 mt-1">مكتبة أصوات المشاهير</span>
+                        </a>
+
+                        <a href="https://www.minimax.io/audio" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-solid fa-dragon text-2xl text-red-500 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">Minimax</span>
+                            <span class="text-[10px] text-gray-500 mt-1">البديل الصيني للاستنساخ</span>
+                        </a>
+
+                        <a href="https://www.heygen.com/" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-solid fa-face-smile text-2xl text-purple-500 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">HeyGen</span>
+                            <span class="text-[10px] text-gray-500 mt-1">وحش المزامنة (Lip-Sync)</span>
+                        </a>
+
+                        <a href="https://www.pippit.ai/" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-solid fa-film text-2xl text-pink-500 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">Pippit</span>
+                            <span class="text-[10px] text-gray-500 mt-1">صناعة الأفاتار والمزامنة</span>
+                        </a>
+
+                        <a href="https://vocalremover.org/" target="_blank" class="bg-white dark:bg-brand-darkcard border border-gray-200 dark:border-brand-teal/30 hover:border-brand-teal dark:hover:border-brand-green hover:shadow-md rounded-xl p-3 text-center transition flex flex-col items-center gap-2 group justify-center">
+                            <i class="fa-solid fa-headphones-simple text-2xl text-green-500 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-semibold text-xs text-brand-dark dark:text-gray-200">Vocal Remover</span>
+                            <span class="text-[10px] text-gray-500 mt-1">عزل الضوضاء وفصل الصوت</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- كتيبة المساعدين -->
+                <div class="bg-gradient-to-l from-gray-50 to-white dark:from-[#070e0c] dark:to-[#0a1412] rounded-2xl p-6 border-2 border-gray-200 dark:border-brand-teal/40 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-1.5 h-full bg-gradient-to-b from-brand-teal to-brand-green"></div>
+                        <h3 class="font-bold text-xl text-brand-dark dark:text-white mb-3 border-b border-brand-teal/30 pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-users-gear text-brand-teal dark:text-brand-green"></i> المساعد الشخصي (Voice Mood)
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 font-semibold">المساعد الخاص بضبط النصوص والتوجيهات الصوتية لاستخدامها في Google AI Studio و ElevenLabs:</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto">
+                            <!-- Voice Mood -->
+                            <div class="bg-white dark:bg-brand-darkcard border-2 border-gray-200 dark:border-brand-teal/30 rounded-xl p-5 transition flex flex-col h-full hover:shadow-md hover:-translate-y-1 hover:border-brand-teal dark:hover:border-brand-green">
+                                <h4 class="font-bold text-brand-teal dark:text-brand-green mb-1 text-sm flex items-center gap-2"><i class="fa-solid fa-microphone-lines"></i> Voice Mood</h4>
+                                <p class="text-[11px] text-gray-500 mb-3">(مخرجك الصوتي)</p>
+                                <p class="text-xs text-gray-700 dark:text-gray-200 mb-5 flex-1 leading-relaxed">بياخد فكرتك ويطلعلك (المشهد، السياق، والنص مع المشاعر) جاهزين للتوليد.</p>
+                                <div class="grid grid-cols-2 gap-2 mt-auto">
+                                    <a href="https://chatgpt.com/g/g-69dfc148364c8191af327ddc7f13314c-voice-mood" target="_blank" class="bg-[#10a37f] text-white font-bold py-2.5 rounded-lg hover:bg-[#0e906f] transition shadow-sm text-xs text-center flex items-center justify-center gap-2">
+                                        <i class="fa-solid fa-robot"></i> ChatGPT
+                                    </a>
+                                    <a href="https://gemini.google.com/gem/19mR4k6oy2DATekTHRD6KUZyliB6QLG-B?usp=sharing" target="_blank" class="bg-[#4285f4] text-white font-bold py-2.5 rounded-lg hover:bg-[#3367d6] transition shadow-sm text-xs text-center flex items-center justify-center gap-2">
+                                        <i class="fa-brands fa-google"></i> Gemini
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 5. الروابط والمجتمع (Community) -->
+    <footer class="bg-white dark:bg-[#050a09] border-t-2 border-gray-200 dark:border-brand-teal/50 mt-12 py-12 shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- 1. أدوات الدبلومة -->
+            <div class="flex flex-col h-full">
+                <h4 class="font-bold text-brand-dark dark:text-brand-green mb-4 text-lg border-r-4 border-brand-teal pr-2 text-right shrink-0">أدوات الدبلومة 🔗</h4>
+                <div class="bg-gray-50 dark:bg-brand-darkcard rounded-xl p-5 border border-gray-300 dark:border-brand-teal/50 flex-1 text-right flex flex-col justify-start">
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="https://notebooklm.google.com/notebook/7b7f75b1-77f6-4363-ada6-84c730d6bfc7" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-solid fa-book-open-reader text-lg w-5 text-center text-brand-teal dark:text-brand-green shrink-0"></i> 
+                                <span class="flex-1 text-right">نوت بوك الدبلومة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://mahmoudtaru.github.io/Smarter-With-Ai-Round-4/" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-solid fa-laptop-code text-lg w-5 text-center text-brand-teal dark:text-brand-green shrink-0"></i> 
+                                <span class="flex-1 text-right">تطبيق الدبلومة الأساسي</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://mahmoudtaru.github.io/Smarter-With-Ai-course/" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-solid fa-globe text-lg w-5 text-center text-brand-teal dark:text-brand-green shrink-0"></i> 
+                                <span class="flex-1 text-right">موقع الدبلومة الشامل</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. مسارات ومساعدين -->
+            <div class="flex flex-col h-full">
+                <h4 class="font-bold text-brand-dark dark:text-brand-green mb-4 text-lg border-r-4 border-yellow-500 pr-2 text-right shrink-0">مسارات ومساعدين 🎁</h4>
+                <div class="bg-gray-50 dark:bg-brand-darkcard rounded-xl p-5 border border-gray-300 dark:border-brand-teal/50 flex-1 text-right flex flex-col justify-start">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 font-semibold leading-relaxed">للوصول السريع لكل المسارات المحدثة 💚</p>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-solid fa-route text-lg w-5 text-center text-brand-teal dark:text-brand-green shrink-0"></i> 
+                                <span class="flex-1 text-right">منصة المسارات (Workflows)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://youtube.com/@smarterwithai18?si=aMFzVqyd1bK0QRSV" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-brands fa-youtube text-lg w-5 text-center text-red-500 shrink-0"></i> 
+                                <span class="flex-1 text-right">قناة اليوتيوب الرسمية</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3. المجتمع والدعم -->
+            <div class="flex flex-col h-full">
+                <h4 class="font-bold text-brand-dark dark:text-brand-green mb-4 text-lg border-r-4 border-brand-teal pr-2 text-right shrink-0">المجتمع والدعم 🤝</h4>
+                <div class="bg-gray-50 dark:bg-brand-darkcard rounded-xl p-5 border border-gray-300 dark:border-brand-teal/50 flex-1 text-right flex flex-col justify-start">
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="https://www.facebook.com/groups/1106148034264004" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-brands fa-facebook text-lg w-5 text-center text-blue-600 shrink-0"></i> 
+                                <span class="flex-1 text-right">جروب الفيسبوك العام</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/Smarter_With_Ai" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-brands fa-telegram text-lg w-5 text-center text-blue-500 shrink-0"></i> 
+                                <span class="flex-1 text-right">قناة التليجرام العامة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/c/3331953900/4" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-solid fa-list-check text-lg w-5 text-center text-brand-green shrink-0"></i> 
+                                <span class="flex-1 text-right">قناة التاسكات (للدفعة)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://chat.whatsapp.com/C68FsQh5eYM7দ্দaKAXCk9vQ" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-brands fa-whatsapp text-lg w-5 text-center text-green-500 shrink-0"></i> 
+                                <span class="flex-1 text-right">جروب الواتساب (للدفعة)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/c/3331953900/1" target="_blank" class="flex items-center justify-start gap-2 text-sm text-brand-teal hover:text-brand-green dark:text-gray-300 dark:hover:text-brand-green transition font-semibold w-full">
+                                <i class="fa-solid fa-comments text-lg w-5 text-center text-blue-400 shrink-0"></i> 
+                                <span class="flex-1 text-right">جروب المناقشات (للدفعة)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 4. العلامة التجارية -->
+            <div class="flex flex-col items-center justify-center text-center h-full">
+                <img src="https://i.postimg.cc/j512mZ0r/lwjw-image-hosting.jpg" alt="Smarter With AI Logo" class="w-20 h-20 rounded-2xl object-contain shadow-md mb-4 bg-white border-2 border-brand-teal/30 dark:border-brand-teal">
+                <div class="font-extrabold text-2xl text-brand-dark dark:text-white">Smarter With <span class="text-brand-green">AI</span></div>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">نصنع الفارق بالذكاء الاصطناعي</p>
+            </div>
+        </div>
+        
+        <div class="text-center text-sm text-gray-400 dark:text-gray-500 mt-12 border-t border-gray-200 dark:border-brand-teal/30 pt-6 pb-24 md:pb-6">
+            جميع الحقوق محفوظة &copy; 2026 لـ Smarter With AI
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- 1. Dark/Light Mode Toggle ---
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>
